@@ -23,14 +23,15 @@ class TopToolbar extends Component {
   }
 
   handleEvent = (event, logged) => {
-    this.setState({logged: logged});
+    //this.setState({logged: logged});
+    console.log(event)
   }
 
   render() {
     return (
       <div>
-      <AppBar title="Application header" iconElementRight={
-        <FlatButton {...this.props} label="Login" />
+      <AppBar title="Application header title" iconElementRight={
+        <FlatButton {...this.props} label="Login" onClick={this.handleEvent}/>
       }/>
       </div>
     );

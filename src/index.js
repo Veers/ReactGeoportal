@@ -20,7 +20,7 @@ class Geoportal extends React.Component {
           <MuiThemeProvider>
             <TopToolbar />
           </MuiThemeProvider>
-      </div>
+        </div>
     );
   }
 }
