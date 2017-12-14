@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import TopToolbar from './TopToolbar'
+import LayerComponent from './LayerComponent'
 
 class Geoportal extends React.Component {
   constructor(props) {
@@ -19,6 +20,9 @@ class Geoportal extends React.Component {
       	<div>
           <MuiThemeProvider>
             <TopToolbar />
+          </MuiThemeProvider>
+          <MuiThemeProvider>
+            <LayerComponent />
           </MuiThemeProvider>
         </div>
     );
