@@ -1,32 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-import TopToolbar from './TopToolbar'
-import LayerComponent from './LayerComponent'
+import TopToolbar from './components/TopToolbar'
+import LayerComponent from './components/LayerComponent'
 
-class Geoportal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
-    this.state = {name: 'Medium'};
-  }
+import geoportalReducers from './reducers/geoportalReducers'
 
-  handleChange(e) {
-    this.setState({name: e.target.value});
-  }
-  render() {
-    return (    	
-      	<div>
-          <MuiThemeProvider>
-            <TopToolbar />
-          </MuiThemeProvider>
-          <MuiThemeProvider>
-            <LayerComponent />
-          </MuiThemeProvider>
-        </div>
-    );
-  }
-}
+const Geoportal = () => (
+	<div>
+		<MuiThemeProvider>
+			<TopToolbar />
+		</MuiThemeProvider>
+		<MuiThemeProvider>
+			<LayerComponent />
+		</MuiThemeProvider>
+	</div>
+)
 
-ReactDOM.render(<Geoportal/>, document.getElementById('app'));
+let store = createStore(geoportalReducers)
+
+ReactDOM.render(<Provider store={store}><Geoportal/></Provider>, document.getElementById('app'));
