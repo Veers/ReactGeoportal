@@ -48,6 +48,8 @@ export const fetchPostsIfNeeded = subreddit => (dispatch, getState) => {
     return dispatch(fetchPosts(subreddit))
   }
 }
+
+
 /**
   layers
 */
@@ -61,11 +63,11 @@ export const requestLayers = () => ({
 
 export const receiveLayers = (json) => ({
   type: RECEIVE_LAYERS,
-  layers: json.data
+  layers: json[0].templates[0].layers
 })
 
-const fetchLayers = dispatch => {
-  dispatch(requestLayers())
+export const fetchLayers = () => (dispatch) => {
+  dispatch(requestLayers)
   return fetch(`http://gptl.ru/api/map/public/maps.json`)
     .then(response => response.json())
     .then(json => dispatch(receiveLayers(json)))

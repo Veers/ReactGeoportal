@@ -69,8 +69,7 @@ const layers = (state = {
         case REQUEST_LAYERS:
             return {
                 ...state,
-                isFetchingLayers: true,
-                didInvalidate: false
+                isFetchingLayers: true
             }
         case RECEIVE_LAYERS:
             return {
@@ -83,13 +82,13 @@ const layers = (state = {
     }
 }
 
-const getLayers = (state = {}, action) => {
+const mapLayers = (state = {}, action) => {
   switch (action.type) {
     case RECEIVE_LAYERS:
     case REQUEST_LAYERS:
       return {
         ...state,
-        [action]: layers(state[action], action)
+        ['layers']: layers(state[action], action)
       }
     default:
      return state
@@ -100,7 +99,7 @@ const getLayers = (state = {}, action) => {
 const rootReducer = combineReducers({
     postsBySubreddit,
     selectedSubreddit,
-    getLayers
+    mapLayers
 })
 
 export default rootReducer
