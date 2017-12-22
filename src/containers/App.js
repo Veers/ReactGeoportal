@@ -46,6 +46,7 @@ class App extends Component {
     return (
       <div>
         <TopToolbar />
+        
         <Picker value={selectedSubreddit}
                 onChange={this.handleChange}
                 options={[ 'reactjs', 'frontend' ]} />
