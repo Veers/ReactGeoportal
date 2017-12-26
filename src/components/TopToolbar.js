@@ -26,11 +26,11 @@ class TopToolbar extends Component {
   render() {
     return (
       <div>
-      <MuiThemeProvider>
-      <AppBar title="Application header title" iconElementRight={
-        <FlatButton {...this.props} label="Login" onClick={this.handleEvent}/>
-      }/>
-      </MuiThemeProvider>
+        <MuiThemeProvider>
+          <AppBar title="Application header title" iconElementRight={
+            <FlatButton {...this.props} label="Login" onClick={this.handleEvent}/>
+          }/>
+        </MuiThemeProvider>
       </div>
     );
   }
