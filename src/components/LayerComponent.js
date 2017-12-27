@@ -1,18 +1,19 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
 
 import PropTypes from 'prop-types'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
+import FloatingActionButton from 'material-ui/FloatingActionButton'
+import ContentAdd from 'material-ui/svg-icons/content/add'
+import ContentRemove from 'material-ui/svg-icons/content/remove'
 
-import {List, ListItem} from 'material-ui/List';
-import Drawer from 'material-ui/Drawer';
-import Subheader from 'material-ui/Subheader';
-import Divider from 'material-ui/Divider';
-import Checkbox from 'material-ui/Checkbox';
-import Toggle from 'material-ui/Toggle';
+import {List, ListItem} from 'material-ui/List'
+import Drawer from 'material-ui/Drawer'
+import Subheader from 'material-ui/Subheader'
+import Divider from 'material-ui/Divider'
+import Checkbox from 'material-ui/Checkbox'
+import Toggle from 'material-ui/Toggle'
 
 import '../style/main.scss'
 
@@ -29,11 +30,17 @@ class LayersComponent extends Component {
   handleToggle = () => this.setState({open: !this.state.open});
 
   render() {
+    let button = null;
+    if (this.state.open) {
+      button = <ContentRemove />
+    } else {
+      button = <ContentAdd />
+    }
     return (
       <div>
       <MuiThemeProvider>
         <FloatingActionButton className="layersButton" onClick={this.handleToggle}>
-          <ContentAdd />
+          {button}       
         </FloatingActionButton>
         </MuiThemeProvider>
         <MuiThemeProvider>

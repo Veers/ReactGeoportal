@@ -9,7 +9,7 @@ import TopToolbar from '../components/TopToolbar'
 import LayerComponent from '../components/LayerComponent'
 
 class App extends Component {
-  static propTypes = {    
+  static propTypes = {
     dispatch: PropTypes.func.isRequired,
     layers: PropTypes.array
   }
