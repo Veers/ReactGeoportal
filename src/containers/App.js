@@ -14,6 +14,11 @@ class App extends Component {
     layers: PropTypes.array
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {location: 'external'}
+  }
+
   componentDidMount() {
     // const { dispatch, selectedSubreddit } = this.props
     const { dispatch } = this.props
@@ -25,10 +30,7 @@ class App extends Component {
     // if (nextProps.selectedSubreddit !== this.props.selectedSubreddit) {
     //   const { dispatch, selectedSubreddit } = nextProps
     //   dispatch(fetchPostsIfNeeded(selectedSubreddit))
-    // }
-    if (nextProps.layers !== this.props.layers) {
-      const { layers } = nextProps.layers
-    }
+    // }    
   }
 
   // handleChange = nextSubreddit => {
@@ -55,6 +57,10 @@ class App extends Component {
       </div>
     )
   }
+}
+
+App.defaultProps = {
+  layers: []
 }
 
 const mapStateToProps = state => {

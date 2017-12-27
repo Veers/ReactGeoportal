@@ -7,15 +7,12 @@ import {
 const layers = (state = {}, action) => {
     switch (action.type) {
         case REQUEST_LAYERS:
-            return {
-                ...state
-            }
+            return Object.assign({}, state)
         case RECEIVE_LAYERS:
-            return {
-                ...state,
+            return Object.assign({}, state, {
                 layers: action.layers,
                 status: action.status
-            }
+            })            
         default:
             return state
     }
@@ -24,11 +21,9 @@ const layers = (state = {}, action) => {
 const mapLayers = (state = {}, action) => {
   switch (action.type) {
     case RECEIVE_LAYERS:
+        return Object.assign({}, state, layers(state[action], action))
     case REQUEST_LAYERS:
-      return {
-        ...state,
-        ...layers(state[action], action)
-      }
+        return Object.assign({}, state)
     default:
      return state
   }

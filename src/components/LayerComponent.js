@@ -58,4 +58,12 @@ class LayersComponent extends Component {
   }
 }
 
+/**
+ * set error message if layers did not loaded
+ * @type {Object}
+ */
+LayersComponent.defaultProps = {
+  layers: []
+}
+
 export default LayersComponent;
