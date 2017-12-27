@@ -6,10 +6,12 @@ import { mapLayers } from '../reducers'
 import Picker from '../components/Picker'
 import Posts from '../components/Posts'
 import TopToolbar from '../components/TopToolbar'
+import LayerComponent from '../components/LayerComponent'
 
 class App extends Component {
   static propTypes = {    
-    dispatch: PropTypes.func.isRequired
+    dispatch: PropTypes.func.isRequired,
+    layers: PropTypes.array
   }
 
   componentDidMount() {
@@ -24,6 +26,9 @@ class App extends Component {
     //   const { dispatch, selectedSubreddit } = nextProps
     //   dispatch(fetchPostsIfNeeded(selectedSubreddit))
     // }
+    if (nextProps.layers !== this.props.layers) {
+      const { layers } = nextProps.layers
+    }
   }
 
   // handleChange = nextSubreddit => {
@@ -45,7 +50,7 @@ class App extends Component {
     return (
       <div>
         <TopToolbar />
-        
+        <LayerComponent />
         
       </div>
     )
@@ -57,7 +62,8 @@ const mapStateToProps = state => {
   const {
     layers: []
   } = mapLayers[requestLayers] || {
-    layers: []
+    layers: [],
+    status: "error"
   }
 
   return {

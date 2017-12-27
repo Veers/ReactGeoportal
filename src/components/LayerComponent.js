@@ -1,5 +1,9 @@
 import React, {Component} from 'react';
 
+import PropTypes from 'prop-types'
+
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
@@ -13,6 +17,10 @@ import Toggle from 'material-ui/Toggle';
 import '../style/main.scss'
 
 class LayersComponent extends Component {
+  // static propTypes = {    
+  //   layers: PropTypes.array.isRequired
+  // }
+
   constructor(props) {
     super(props)
     this.state = {open: false}
@@ -23,10 +31,12 @@ class LayersComponent extends Component {
   render() {
     return (
       <div>
+      <MuiThemeProvider>
         <FloatingActionButton className="layersButton" onClick={this.handleToggle}>
           <ContentAdd />
         </FloatingActionButton>
-
+        </MuiThemeProvider>
+        <MuiThemeProvider>
         <Drawer open={this.state.open}>
           <List>
             <Subheader>Hangout Notifications</Subheader>
@@ -35,6 +45,7 @@ class LayersComponent extends Component {
             <ListItem primaryText="Video sounds" leftCheckbox={<Checkbox />} />
           </List>
         </Drawer>
+        </MuiThemeProvider>
       </div>
     );
   }
