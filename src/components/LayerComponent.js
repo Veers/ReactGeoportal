@@ -50,7 +50,10 @@ class LayersComponent extends Component {
             <Subheader>Hangout Notifications</Subheader>
               <RadioButtonGroup name="mapLayers">
                 {mapLayers.map(function(element){
-                  return <RadioButton label={element.name} key={element.id} />
+                  if (element.layers)
+                    return <RadioButton label={element.name + " group"} key={element.id} />
+                  else
+                    return <RadioButton label={element.name} key={element.id} />
                 })}
               </RadioButtonGroup>
         </Drawer>
