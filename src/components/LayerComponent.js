@@ -7,6 +7,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
 import ContentRemove from 'material-ui/svg-icons/content/remove'
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
 import {List, ListItem} from 'material-ui/List'
 import Drawer from 'material-ui/Drawer'
@@ -36,6 +37,7 @@ class LayersComponent extends Component {
     } else {
       button = <ContentAdd />
     }
+    let mapLayers = this.props.layers
     return (
       <div>
       <MuiThemeProvider>
@@ -45,12 +47,12 @@ class LayersComponent extends Component {
         </MuiThemeProvider>
         <MuiThemeProvider>
         <Drawer open={this.state.open}>
-          <List>
             <Subheader>Hangout Notifications</Subheader>
-            <ListItem primaryText="Notifications" leftCheckbox={<Checkbox />} />
-            <ListItem primaryText="Sounds" leftCheckbox={<Checkbox />} />
-            <ListItem primaryText="Video sounds" leftCheckbox={<Checkbox />} />
-          </List>
+              <RadioButtonGroup name="mapLayers">
+                {mapLayers.map(function(element){
+                  return <RadioButton label={element.name} key={element.id} />
+                })}
+              </RadioButtonGroup>
         </Drawer>
         </MuiThemeProvider>
       </div>

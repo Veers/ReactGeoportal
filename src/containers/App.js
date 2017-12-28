@@ -8,29 +8,45 @@ import Posts from '../components/Posts'
 import TopToolbar from '../components/TopToolbar'
 import LayerComponent from '../components/LayerComponent'
 
+import { LoggerMixin } from 'react-logger'
+
 class App extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
-    layers: PropTypes.array
+    layers: PropTypes.array.isRequired
   }
 
   constructor(props) {
     super(props)
-    this.state = {location: 'external'}
+    this.state = {
+      location: 'external',
+      layersData: []
+    }
   }
 
   componentDidMount() {
     // const { dispatch, selectedSubreddit } = this.props
-    const { dispatch } = this.props
+    // const { dispatch, layers } = this.props
     // dispatch(fetchPostsIfNeeded(selectedSubreddit))
-    dispatch(fetchLayers())
+    // dispatch(fetchLayers())
+
+    fetch(`http://gptl.ru/api/map/public/maps.json`)
+      .then(response => response.json())
+      .then(json => this.setState(Object.assign({}, this.state, {
+        layersData: json[0].templates[0].layers
+      })))
+  }
+
+  componentDidUpdate(prevProps) {
+    const { dispatch, layers } = this.props
   }
 
   componentWillReceiveProps(nextProps) {
+    const { dispatch, layers } = this.props
     // if (nextProps.selectedSubreddit !== this.props.selectedSubreddit) {
     //   const { dispatch, selectedSubreddit } = nextProps
     //   dispatch(fetchPostsIfNeeded(selectedSubreddit))
-    // }    
+    // }
   }
 
   // handleChange = nextSubreddit => {
@@ -52,7 +68,7 @@ class App extends Component {
     return (
       <div>
         <TopToolbar />
-        <LayerComponent />
+        <LayerComponent layers={this.state.layersData}/>
         
       </div>
     )
