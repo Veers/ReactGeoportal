@@ -8,8 +8,6 @@ import Posts from '../components/Posts'
 import TopToolbar from '../components/TopToolbar'
 import LayerComponent from '../components/LayerComponent'
 
-import { LoggerMixin } from 'react-logger'
-
 class App extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
