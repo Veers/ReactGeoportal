@@ -28,20 +28,25 @@ class LayersComponent extends Component {
     super(props)
     this.state = {
       open: false,
-      activeLayers: new Map()
+      activeLayer: {},
+      activeCoverages: new Map()
     }
   }
 
   handleToggle = () => this.setState({open: !this.state.open})
 
-  toggleLayers = (event, value) => this.setState({activeLayers: activeLayers.set(value.id, value)})
+  toggleLayers = (event, value) => this.setState((prevState, props) => ({
+    activeLayer: value
+  }))
 
-  // componentWillReceiveProps = (nextProps) => {
-
-  //   nextProps.layers.map(function(layer){
-  //     if (!layer.layers && layer.config.options.visibility) this.setState({activeLayers: layer}) 
-  //   }, this)
-  // }
+  componentWillReceiveProps = (nextProps) => {
+    nextProps.layers.map(function(layer){
+      if (!layer.layers && layer.config.options.visibility) 
+        this.setState((prevState, props) => ({
+          activeLayer: layer
+        }))
+    }, this)
+  }
 
   render() {
     let button = null;
@@ -73,17 +78,17 @@ class LayersComponent extends Component {
         </FloatingActionButton>
         </MuiThemeProvider>
         <MuiThemeProvider>
-        <Drawer open={this.state.open}>
-            <Subheader>Hangout Notifications</Subheader>
-              <RadioButtonGroup name="mapLayers" onChange={this.toggleLayers}>
-                {mapLayers.map(function(element){
-                  if (element.layers)
-                    return <RadioButton value={element.name} label={element.name + " group"} key={element.id}  style={radioStyles.listParentNode}/>
-                  else
-                    return <RadioButton value={element.name} label={element.name} key={element.id} style={radioStyles.radioButton}/>
-                })}
-              </RadioButtonGroup>
-        </Drawer>
+          <Drawer open={this.state.open}>
+            <Subheader>LAYERS TREE</Subheader>
+            <RadioButtonGroup name="mapLayers" onChange={this.toggleLayers} defaultSelected={this.state.activeLayer}>
+              {mapLayers.map(function(element){
+                if (element.layers)
+                  return <RadioButton value={element} label={element.name + " group"} key={element.id}  style={radioStyles.listParentNode}/>
+                else
+                  return <RadioButton value={element} label={element.name} key={element.id} style={radioStyles.radioButton}/>
+              })}
+            </RadioButtonGroup>
+          </Drawer>
         </MuiThemeProvider>
       </div>
     );
@@ -95,7 +100,7 @@ class LayersComponent extends Component {
  * @type {Object}
  */
 LayersComponent.defaultProps = {
-  layers: []
+  activeLayer: {}
 }
 
 export default LayersComponent
