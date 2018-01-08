@@ -7,7 +7,7 @@ export const requestLayers = () => ({
 
 export const receiveLayers = (json, status) => ({
   type: RECEIVE_LAYERS,
-  layers: json[0].templates[0].layers,
+  layers: Object.assign({}, json[0].templates[0].layers),
   status: status
 })
 

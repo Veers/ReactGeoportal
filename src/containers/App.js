@@ -7,18 +7,19 @@ import Picker from '../components/Picker'
 import Posts from '../components/Posts'
 import TopToolbar from '../components/TopToolbar'
 import LayerComponent from '../components/LayerComponent'
+import MapComponent from '../components/MapComponent'
 
 class App extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
-    layers: PropTypes.array.isRequired
+    layers: PropTypes.object.isRequired
   }
 
   constructor(props) {
     super(props)
     this.state = {
       location: 'external',
-      layersData: []
+      layersData: {}
     }
   }
 
@@ -27,12 +28,19 @@ class App extends Component {
     // const { dispatch, layers } = this.props
     // dispatch(fetchPostsIfNeeded(selectedSubreddit))
     // dispatch(fetchLayers())
+    const getActiveLayer = layers => { layers.map = (layer) => { return 23 } }
 
     fetch(`http://gptl.ru/api/map/public/maps.json`)
       .then(response => response.json())
-      .then(json => this.setState(Object.assign({}, this.state, {
-        layersData: json[0].templates[0].layers
-      })))
+      .then(json => {
+        let layersArray = json[0].templates[0].layers 
+        this.setState(Object.assign({}, this.state, {
+          layersData: {
+            layers: layersArray,
+            activeLayer: layersArray.find(function(layer){if (!layer.layers && layer.config.options.visibility) return layer})
+          }
+        }))
+      })
   }
 
   componentDidUpdate(prevProps) {
@@ -47,42 +55,30 @@ class App extends Component {
     // }
   }
 
-  // handleChange = nextSubreddit => {
-    // this.props.dispatch(selectSubreddit(nextSubreddit))
-  // }
-
-  // handleRefreshClick = e => {
-  //   e.preventDefault()
-
-  //   const { dispatch, selectedSubreddit } = this.props
-  //   dispatch(invalidateSubreddit(selectedSubreddit))
-  //   dispatch(fetchPostsIfNeeded(selectedSubreddit))
-  // }
-
+  
   render() {
-    // const { selectedSubreddit, posts, isFetching, lastUpdated } = this.props
     const { layers } = this.props
-    // const isEmpty = posts.length === 0
+
     return (
       <div>
-        <TopToolbar />
-        <LayerComponent layers={this.state.layersData}/>
-        
+        <TopToolbar />        
+        <LayerComponent layersData={this.state.layersData} />
+        <MapComponent/>
       </div>
     )
   }
 }
 
 App.defaultProps = {
-  layers: []
+  layers: Object.create(null)
 }
 
 const mapStateToProps = state => {
   const { layers, mapLayers } = state
   const {
-    layers: []
+    layers: {}
   } = mapLayers[requestLayers] || {
-    layers: [],
+    layers: {},
     status: "error"
   }
 
@@ -91,56 +87,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(App)
-
-// const mapStateToProps = state => {
-//   const { selectedSubreddit, postsBySubreddit } = state
-//   const {
-//     isFetching,
-//     lastUpdated,
-//     items: posts
-//   } = postsBySubreddit[selectedSubreddit] || {
-//     isFetching: true,
-//     items: []
-//   }
-
-//   return {
-//     selectedSubreddit,
-//     posts,
-//     isFetching,
-//     lastUpdated
-//   }
-// }
-
-// export default connect(mapStateToProps)(App)
-
-
-// selectedSubreddit: PropTypes.string.isRequired,
-//     posts: PropTypes.array.isRequired,
-//     isFetching: PropTypes.bool.isRequired,
-//     lastUpdated: PropTypes.number,
-
-
-// <Picker value={selectedSubreddit}
-//                 onChange={this.handleChange}
-//                 options={[ 'reactjs', 'frontend' ]} />
-//         <p>
-//           {lastUpdated &&
-//             <span>
-//               Last updated at {new Date(lastUpdated).toLocaleTimeString()}.
-//               {' '}
-//             </span>
-//           }
-//           {!isFetching &&
-//             <button onClick={this.handleRefreshClick}>
-//               Refresh
-//             </button>
-//           }
-//         </p>
-//         {isEmpty
-//           ? (isFetching ? <h2>Loading...</h2> : <h2>Empty.</h2>)
-//           : <div style={{ opacity: isFetching ? 0.5 : 1 }}>
-//               <Posts posts={posts} />
-//             </div>
-//         }
-//             
+export default connect(mapStateToProps)(App)  

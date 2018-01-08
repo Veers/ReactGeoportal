@@ -21,15 +21,15 @@ import '../style/main.scss'
 
 class LayersComponent extends Component {
   static propTypes = {    
-    layers: PropTypes.array.isRequired
+    layersData: PropTypes.object.isRequired
   }
 
   constructor(props) {
     super(props)
     this.state = {
       open: false,
-      activeLayer: {},
-      activeCoverages: new Map()
+      layers: [],
+      activeLayer: {}
     }
   }
 
@@ -40,13 +40,12 @@ class LayersComponent extends Component {
   }))
 
   componentWillReceiveProps = (nextProps) => {
-    nextProps.layers.map(function(layer){
-      if (!layer.layers && layer.config.options.visibility) 
-        this.setState((prevState, props) => ({
-          activeLayer: layer
-        }))
-    }, this)
+    this.setState({
+      layers: nextProps.layersData.layers,
+      activeLayer: nextProps.layersData.activeLayer
+    })
   }
+
 
   render() {
     let button = null;
@@ -55,7 +54,8 @@ class LayersComponent extends Component {
     } else {
       button = <ContentAdd />
     }
-    let mapLayers = this.props.layers
+    let mapLayers = this.state.layers
+    let activeLayer = this.state.activeLayer
     const radioStyles = {
       radioButton: {
         marginBottom: 10,
@@ -67,9 +67,6 @@ class LayersComponent extends Component {
       }
     }
 
-    // let activeLayer = mapLayers.map(function(element){
-    //   if (!element.layers && element.config.options.visibility) 
-    // })
     return (
       <div>
       <MuiThemeProvider>
@@ -80,7 +77,7 @@ class LayersComponent extends Component {
         <MuiThemeProvider>
           <Drawer open={this.state.open}>
             <Subheader>LAYERS TREE</Subheader>
-            <RadioButtonGroup name="mapLayers" onChange={this.toggleLayers} defaultSelected={this.state.activeLayer}>
+            <RadioButtonGroup name="mapLayers" onChange={this.toggleLayers} valueSelected={activeLayer}>
               {mapLayers.map(function(element){
                 if (element.layers)
                   return <RadioButton value={element} label={element.name + " group"} key={element.id}  style={radioStyles.listParentNode}/>
@@ -93,14 +90,6 @@ class LayersComponent extends Component {
       </div>
     );
   }
-}
-
-/**
- * set error message if layers did not loaded
- * @type {Object}
- */
-LayersComponent.defaultProps = {
-  activeLayer: {}
 }
 
 export default LayersComponent
