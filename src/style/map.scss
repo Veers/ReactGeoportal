@@ -1,0 +1,8 @@
+#cesiumContainer {
+    top: 64px;
+    height: calc(100% - 64px);
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    z-index: 2;
+}
