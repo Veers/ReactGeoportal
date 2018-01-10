@@ -8,6 +8,9 @@ import Posts from '../components/Posts'
 import TopToolbar from '../components/TopToolbar'
 import LayerComponent from '../components/LayerComponent'
 import MapComponent from '../components/MapComponent'
+import SearchComponent from '../components/SearchComponent'
+
+import '../style/main.scss'
 
 class App extends Component {
   static propTypes = {
@@ -17,10 +20,14 @@ class App extends Component {
 
   constructor(props) {
     super(props)
+
     this.state = {
       location: 'external',
-      layersData: {}
+      coveragesLayers: [],
+      activeLayer: {}
     }
+
+    this.onLayerChange = this.onLayerChange.bind(this)
   }
 
   componentDidMount() {
@@ -28,17 +35,14 @@ class App extends Component {
     // const { dispatch, layers } = this.props
     // dispatch(fetchPostsIfNeeded(selectedSubreddit))
     // dispatch(fetchLayers())
-    const getActiveLayer = layers => { layers.map = (layer) => { return 23 } }
-
+    
     fetch(`http://gptl.ru/api/map/public/maps.json`)
       .then(response => response.json())
       .then(json => {
         let layersArray = json[0].templates[0].layers 
         this.setState(Object.assign({}, this.state, {
-          layersData: {
-            layers: layersArray,
-            activeLayer: layersArray.find(function(layer){if (!layer.layers && layer.config.options.visibility) return layer})
-          }
+          coveragesLayers: layersArray,
+          activeLayer: layersArray.find(function(layer){if (!layer.layers && layer.config.options.visibility) return layer})
         }))
       })
   }
@@ -55,15 +59,20 @@ class App extends Component {
     // }
   }
 
+  onLayerChange(layer) {
+    console.debug(layer)
+    this.setState({ activeLayer: layer })
+  }
   
   render() {
     const { layers } = this.props
 
     return (
       <div>
-        <TopToolbar />        
-        <LayerComponent layersData={this.state.layersData} />
-        <MapComponent/>
+        <TopToolbar />
+        <LayerComponent coveragesLayers={this.state.coveragesLayers} activeLayer={this.state.activeLayer} onLayerChange={this.onLayerChange} />
+        <MapComponent coveragesLayers={this.state.coveragesLayers} activeLayer={this.state.activeLayer} onLayerChange={this.onLayerChange} />
+        <SearchComponent />
       </div>
     )
   }

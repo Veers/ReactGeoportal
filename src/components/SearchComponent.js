@@ -1,4 +1,7 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
+
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
@@ -18,17 +21,19 @@ class SearchComponent extends Component {
   render() {
     return (
       <div>
-        <FloatingActionButton className="searchToggleButton" secondary={true} onClick={this.handleToggle}>
-          <ContentAdd />
-        </FloatingActionButton>
+        <MuiThemeProvider>
+          <FloatingActionButton className="searchToggleButton" secondary={true} onClick={this.handleToggle}>
+            <ContentAdd />
+          </FloatingActionButton>
 
-        <Drawer open={this.state.open}>
-          <RadioButtonGroup name="shipSpeed" defaultSelected="not_light">
-            <RadioButton value="not_light" label="not_light" />
-            <RadioButton value="not_light2" label="not_light2" />
-            <RadioButton value="not_light3" label="not_light3" />
-          </RadioButtonGroup>        
-        </Drawer>
+          <Drawer open={this.state.open}>
+            <RadioButtonGroup name="shipSpeed" defaultSelected="not_light">
+              <RadioButton value="not_light" label="not_light" />
+              <RadioButton value="not_light2" label="not_light2" />
+              <RadioButton value="not_light3" label="not_light3" />
+            </RadioButtonGroup>        
+          </Drawer>
+        </MuiThemeProvider>
       </div>
     );
   }

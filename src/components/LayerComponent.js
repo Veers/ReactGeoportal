@@ -17,32 +17,35 @@ import Divider from 'material-ui/Divider'
 import Checkbox from 'material-ui/Checkbox'
 import Toggle from 'material-ui/Toggle'
 
-import '../style/main.scss'
-
 class LayersComponent extends Component {
   static propTypes = {    
-    layersData: PropTypes.object.isRequired
+    coveragesLayers: PropTypes.array.isRequired,
+    onLayerChange: PropTypes.func.isRequired,
+    activeLayer: PropTypes.object.isRequired
   }
 
   constructor(props) {
     super(props)
     this.state = {
       open: false,
-      layers: [],
+      coveragesLayers: [],
       activeLayer: {}
     }
   }
 
   handleToggle = () => this.setState({open: !this.state.open})
 
-  toggleLayers = (event, value) => this.setState((prevState, props) => ({
-    activeLayer: value
-  }))
+  toggleLayers = (event, value) => {
+    this.setState((prevState, props) => ({
+      activeLayer: value
+    }))
+    this.props.onLayerChange(value)
+  }
 
   componentWillReceiveProps = (nextProps) => {
     this.setState({
-      layers: nextProps.layersData.layers,
-      activeLayer: nextProps.layersData.activeLayer
+      coveragesLayers: nextProps.coveragesLayers,
+      activeLayer: nextProps.activeLayer
     })
   }
 
@@ -54,7 +57,7 @@ class LayersComponent extends Component {
     } else {
       button = <ContentAdd />
     }
-    let mapLayers = this.state.layers
+    let mapLayers = this.state.coveragesLayers
     let activeLayer = this.state.activeLayer
     const radioStyles = {
       radioButton: {
