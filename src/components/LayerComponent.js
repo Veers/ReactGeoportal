@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 
 import Utils from '../Utils'
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
 import ContentRemove from 'material-ui/svg-icons/content/remove'
@@ -72,14 +70,11 @@ class LayersComponent extends Component {
 
     return (
       <div>
-      <MuiThemeProvider>
         <FloatingActionButton className="layersButton" onClick={this.handleToggle}>
           {button}       
         </FloatingActionButton>
-        </MuiThemeProvider>
-        <MuiThemeProvider>
-          <Drawer open={this.state.open}>
-            <Subheader>LAYERS TREE</Subheader>
+        <Drawer open={this.state.open}>
+          <Subheader>LAYERS TREE</Subheader>
             <RadioButtonGroup name="mapLayers" onChange={this.toggleLayers} valueSelected={activeLayer}>
               {mapLayers.map(function(element){
                 if (element.layers)
@@ -89,7 +84,6 @@ class LayersComponent extends Component {
               })}
             </RadioButtonGroup>
           </Drawer>
-        </MuiThemeProvider>
       </div>
     );
   }

@@ -1,4 +1,6 @@
+import { reducer as reduxFormReducer } from 'redux-form'
 import { combineReducers } from 'redux'
+
 import {
     REQUEST_LAYERS,
     RECEIVE_LAYERS
@@ -31,7 +33,8 @@ const mapLayers = (state = {}, action) => {
 
 
 const rootReducer = combineReducers({
-    mapLayers
+    mapLayers,
+    reduxFormReducer
 })
 
 export default rootReducer
