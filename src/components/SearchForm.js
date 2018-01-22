@@ -1,111 +1,201 @@
-import React from 'react'
-import { Field, reduxForm } from 'redux-form'
-import TextField from 'material-ui/TextField'
-import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
-import Checkbox from 'material-ui/Checkbox'
-import SelectField from 'material-ui/SelectField'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { Field, reduxForm, formValueSelector } from 'redux-form'
+import { RadioButton } from 'material-ui/RadioButton'
 import MenuItem from 'material-ui/MenuItem'
-import validate from './validate'
+import { AutoComplete as MUIAutoComplete } from 'material-ui'
+import {
+  AutoComplete,
+  Checkbox,
+  DatePicker,
+  TimePicker,
+  RadioButtonGroup,
+  SelectField,
+  Slider,
+  TextField,
+  Toggle
+} from 'redux-form-material-ui'
 
-const renderTextField = (
-	{ input, label, meta: { touched, error }, ...custom },
-) => (
-	<TextField
-		hintText={label}
-		floatingLabelText={label}
-		errorText={touched && error}
-		{...input}
-		{...custom}
-	/>
-)
+// validation functions
+const required = value => (value == null ? 'Required' : undefined)
+const email = value =>
+  value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
+    ? 'Invalid email'
+    : undefined
+const tooManyPizzas = value => (value > 15 ? 'Are you mad?' : undefined)
 
-const renderCheckbox = ({ input, label }) => (
-	<Checkbox
-		label={label}
-		checked={input.value ? true : false}
-		onCheck={input.onChange}
-	/>
-)
+class Form extends Component {
+  componentDidMount() {
+    this.ref // the Field
+      .getRenderedComponent() // on Field, returns ReduxFormMaterialUITextField
+      .getRenderedComponent() // on ReduxFormMaterialUITextField, returns TextField
+      .focus() // on TextField
+  }
 
-const renderRadioGroup = ({ input, ...rest }) => (
-	<RadioButtonGroup
-		{...input}
-		{...rest}
-		valueSelected={input.value}
-		onChange={(event, value) => input.onChange(value)}
-	/>
-)
+  saveRef = ref => (this.ref = ref)
 
-const renderSelectField = (
-	{ input, label, meta: { touched, error }, children, ...custom },
-) => (
-	<SelectField
-		floatingLabelText={label}
-		errorText={touched && error}
-		{...input}
-		onChange={(event, index, value) => input.onChange(value)}
-		children={children}
-		{...custom}
-	/>
-)
-
-const SearchForm = props => {
-	const { handleSubmit, pristine, reset, submitting } = props;
-	return (
-		<form onSubmit={handleSubmit}>
-			<div>
-				<Field
-					name="firstName"
-					component={renderTextField}
-					label="First Name"
-				/>
-			</div>
-			<div>
-				<Field name="lastName" component={renderTextField} label="Last Name" />
-			</div>
-			<div>
-				<Field name="email" component={renderTextField} label="Email" />
-			</div>
-			<div>
-				<Field name="sex" component={renderRadioGroup}>
-					<RadioButton value="male" label="male" />
-					<RadioButton value="female" label="female" />
-				</Field>
-			</div>
-			<div>
-				<Field
-					name="favoriteColor"
-					component={renderSelectField}
-					label="Favorite Color"
-				>
-					<MenuItem value="ff0000" primaryText="Red" />
-					<MenuItem value="00ff00" primaryText="Green" />
-					<MenuItem value="0000ff" primaryText="Blue" />
-				</Field>
-			</div>
-			<div>
-				<Field name="employed" component={renderCheckbox} label="Employed" />
-			</div>
-			<div>
-				<Field
-					name="notes"
-					component={renderTextField}
-					label="Notes"
-					multiLine={true}
-					rows={2}
-				/>
-			</div>
-			<div>
-				<button type="submit">Submit</button>
-				<button type="button" onClick={reset}>
-					Clear Values
-				</button>
-			</div>
-		</form>
-	)
+  render() {
+    const { handleSubmit, pristine, numPizzas, reset, submitting } = this.props
+    return (
+      <form onSubmit={handleSubmit}>
+        <div>
+          <Field
+            name="name"
+            component={TextField}
+            hintText="Name"
+            floatingLabelText="Name"
+            validate={required}
+            ref={this.saveRef}
+            withRef
+          />
+        </div>
+        <div>
+          <Field
+            name="email"
+            component={TextField}
+            hintText="Email"
+            floatingLabelText="Email"
+            validate={[required, email]}
+          />
+        </div>
+        <div>
+          <Field name="delivery" component={RadioButtonGroup}>
+            <RadioButton value="pickup" label="Pickup" />
+            <RadioButton value="delivery" label="Delivery" />
+          </Field>
+        </div>
+        <div>How many pizzas do you want?</div>
+        <div>{numPizzas}</div>
+        <div>
+          <Field
+            name="pizzas"
+            component={Slider}
+            defaultValue={0}
+            format={null}
+            min={0}
+            max={20}
+            step={1}
+            warn={tooManyPizzas}
+          />
+        </div>
+        <div>
+          <Field
+            name="driver"
+            component={SelectField}
+            hintText="Driver"
+            floatingLabelText="Driver"
+            validate={required}
+          >
+            <MenuItem value="alice@redux-pizza.com" primaryText="Alice" />
+            <MenuItem value="bob@redux-pizza.com" primaryText="Bob" />
+            <MenuItem value="carl@redux-pizza.com" primaryText="Carl" />
+          </Field>
+        </div>
+        <div>
+          <Field
+            name="thinCrust"
+            component={Toggle}
+            label="Thin Crust"
+            labelPosition="right"
+          />
+        </div>
+        <div>
+          <Field name="pepperoni" component={Checkbox} label="Pepperoni" />
+        </div>
+        <div>
+          <Field name="mushrooms" component={Checkbox} label="Mushrooms" />
+        </div>
+        <div>
+          <Field name="peppers" component={Checkbox} label="Peppers" />
+        </div>
+        <div>
+          <Field
+            name="when"
+            component={DatePicker}
+            format={null}
+            hintText="Day of delivery?"
+            validate={required}
+          />
+        </div>
+        <div>
+          <Field
+            name="at"
+            component={TimePicker}
+            format={null}
+            // and redux-form defaults to ''
+            hintText="At what time?"
+            validate={required}
+          />
+        </div>
+        <div>
+          <Field
+            name="notes"
+            component={TextField}
+            hintText="Notes"
+            floatingLabelText="Notes"
+            multiLine
+            rows={2}
+          />
+        </div>
+        <div>
+          <Field
+            name="cheese"
+            component={AutoComplete}
+            floatingLabelText="Cheese"
+            openOnFocus
+            filter={MUIAutoComplete.fuzzyFilter}
+            dataSource={['Cheddar', 'Mozzarella', 'Parmesan', 'Provolone']}
+          />
+        </div>
+        <div>
+          <Field
+            name="referral"
+            component={AutoComplete}
+            floatingLabelText="How did you find us?"
+            openOnFocus
+            filter={MUIAutoComplete.fuzzyFilter}
+            dataSourceConfig={{ text: 'name', value: 'id' }}
+            dataSource={[
+              { id: 0, name: 'Facebook' },
+              { id: 1, name: 'Yelp' },
+              { id: 2, name: 'TV Ad' },
+              { id: 3, name: 'Friend' },
+              { id: 4, name: 'Other' }
+            ]}
+          />
+        </div>
+        <div>
+          <button type="submit" disabled={submitting}>
+            Submit
+          </button>
+          <button
+            type="button"
+            disabled={pristine || submitting}
+            onClick={reset}
+          >
+            Clear
+          </button>
+        </div>
+      </form>
+    )
+  }
 }
 
-export default reduxForm({
-	form: 'SearchForm', // a unique identifier for this form
-	validate,
-})(SearchForm)
+const selector = formValueSelector('example')
+
+Form = connect(state => ({
+  numPizzas: selector(state, 'pizzas')
+}))(Form)
+
+Form = reduxForm({
+  form: 'example',
+  initialValues: {
+    delivery: 'delivery',
+    name: 'Jane Doe',
+    cheese: 'Cheddar',
+    thinCrust: true,
+    pizzas: 1
+  }
+})(Form)
+
+export default Form

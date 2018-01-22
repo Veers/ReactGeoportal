@@ -66,12 +66,14 @@ class App extends Component {
   
   render() {
     const { layers } = this.props
+    //<MapComponent coveragesLayers={this.state.coveragesLayers} activeLayer={this.state.activeLayer} onLayerChange={this.onLayerChange} />
 
     return (
       <div>
         <TopToolbar />
         <LayerComponent coveragesLayers={this.state.coveragesLayers} activeLayer={this.state.activeLayer} onLayerChange={this.onLayerChange} />
-        <MapComponent coveragesLayers={this.state.coveragesLayers} activeLayer={this.state.activeLayer} onLayerChange={this.onLayerChange} />
+        <SearchComponent/>
+        
       </div>
     )
   }
