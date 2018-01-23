@@ -34,7 +34,7 @@ const mapLayers = (state = {}, action) => {
 
 const rootReducer = combineReducers({
     mapLayers,
-    reduxFormReducer
+    form: reduxFormReducer
 })
 
 export default rootReducer
