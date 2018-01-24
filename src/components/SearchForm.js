@@ -15,11 +15,27 @@ import {
   TextField,
   Toggle
 } from 'redux-form-material-ui'
+import CheckboxTree from 'react-checkbox-tree'
+
+import '../../node_modules/react-checkbox-tree/src/scss/react-checkbox-tree.scss'
+
+const nodes = [{
+    value: 'mars',
+    label: 'Mars',
+    children: [
+        { value: 'phobos', label: 'Phobos' },
+        { value: 'deimos', label: 'Deimos' },
+    ],
+}]
 
 class SearchForm extends Component {
 
 	constructor(props) {
 		super(props)
+		this.state = {
+            checked: [],
+            expanded: []
+        }
 	}
 
 	changeShootingPeriod = (event, index, value) => console.log(event)
@@ -34,13 +50,13 @@ class SearchForm extends Component {
           			<RadioButton value="ember" label="Задать вручьную"/>
         		</Field>
 
-        		<Field name="DatePickerHere" component={DatePicker} format={null} hintText="Дата начала съемки"/>
-        		<Field name="DatePickerHere" component={DatePicker} format={null} hintText="Дата окончания съемки"/>
+        		<Field name="DatePickerHere0" component={DatePicker} format={null} hintText="Дата начала съемки"/>
+        		<Field name="DatePickerHere1" component={DatePicker} format={null} hintText="Дата окончания съемки"/>
 
-        		<Field name="shootingPeriod" 
-        			component={SelectField} 
+        		<Field name="shootingPeriod"
+        			component={SelectField}
         			hintText="Выбрать период съемки" 
-        			onChange={this.changeShootingPeriod} 
+        			onChange={this.changeShootingPeriod}
         		>
         			<MenuItem key="month" value="month" primaryText="Месяц"/>
           			<MenuItem key="halfYear" value="halfYear" primaryText="Полгода"/>
@@ -48,6 +64,13 @@ class SearchForm extends Component {
           			<MenuItem key="10years" value="10years" primaryText="10 лет"/>
         		</Field>
 
+        		<CheckboxTree
+                	nodes={nodes}
+                	checked={this.state.checked}
+                	expanded={this.state.expanded}
+                	onCheck={checked => this.setState({ checked })}
+                	onExpand={expanded => this.setState({ expanded })}
+            	/>
         					
 			</form>
 		)
