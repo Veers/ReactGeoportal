@@ -4152,6 +4152,10 @@ js-base64@^2.1.8, js-base64@^2.1.9:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.4.0.tgz#9e566fee624751a1d720c966cd6226d29d4025aa"
 
+js-cookie@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-2.2.0.tgz#1b2c279a6eece380a12168b92485265b35b1effb"
+
 js-tokens@^3.0.0, js-tokens@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.2.tgz#9866df395102130e38f7f996bceb65443209c25b"
@@ -6003,12 +6007,13 @@ redux-form-material-ui@^4.3.2:
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/redux-form-material-ui/-/redux-form-material-ui-4.3.2.tgz#18bfdd68cd95c98a7f8506aa7598c25c474f17fe"
 
-redux-form-website-template@^0.0.97:
-  version "0.0.97"
-  resolved "https://registry.yarnpkg.com/redux-form-website-template/-/redux-form-website-template-0.0.97.tgz#199ac476f98b95e9a87eadd6070cde031216eb94"
+redux-form-website-template@^0.0.99:
+  version "0.0.99"
+  resolved "https://registry.yarnpkg.com/redux-form-website-template/-/redux-form-website-template-0.0.99.tgz#114bdf1f9ce9d39680f1aebac118ebd3a2d32c96"
   dependencies:
     babel-polyfill "^6.26.0"
     classnames "^2.2.3"
+    js-cookie "^2.2.0"
     marked "^0.3.5"
     prop-types "^15.6.0"
     react "^16.2.0"
