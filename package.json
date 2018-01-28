@@ -10,7 +10,7 @@
     "eslint-plugin-flowtype": "^2.41.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
-    "html-loader": "^0.5.1",
+    "html-loader": "^0.5.5",
     "json-loader": "^0.5.7",
     "markdown-loader": "^2.0.1",
     "material-ui": "^0.20.0",
