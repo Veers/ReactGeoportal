@@ -41,7 +41,7 @@
     "cesium": "^1.41.0",
     "classnames": "^2.2.5",
     "copy-webpack-plugin": "^4.3.1",
-    "css-loader": "^0.28.9",
+    "css-loader": "^0.28.10",
     "enzyme": "^3.2.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.16.0",
