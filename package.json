@@ -52,7 +52,7 @@
     "express": "^4.15.4",
     "extract-text-webpack-plugin": "^3.0.2",
     "gator": "^1.2.4",
-    "html-webpack-plugin": "^2.30.1",
+    "html-webpack-plugin": "^3.0.0",
     "jest": "^22.1.4",
     "node-sass": "^4.7.2",
     "opentip": "^2.4.3",
