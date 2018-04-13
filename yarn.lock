@@ -2485,7 +2485,7 @@ es5-ext@^0.10.14, es5-ext@^0.10.35, es5-ext@^0.10.9, es5-ext@~0.10.14:
     es6-iterator "~2.0.1"
     es6-symbol "~3.1.1"
 
-es6-error@^4.0.0, es6-error@^4.1.1:
+es6-error@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/es6-error/-/es6-error-4.1.1.tgz#9e3af407459deed47e9a91f9b885a84eb05c561d"
 
@@ -6368,9 +6368,9 @@ redux-form-material-ui@^4.3.3:
   version "4.3.3"
   resolved "https://registry.yarnpkg.com/redux-form-material-ui/-/redux-form-material-ui-4.3.3.tgz#58c5a162311ad6fed4b4709cd4a2b14ce269b1e3"
 
-redux-form-website-template@^0.0.102:
-  version "0.0.102"
-  resolved "https://registry.yarnpkg.com/redux-form-website-template/-/redux-form-website-template-0.0.102.tgz#667c07415b524d8d45ab2248109b7cea38edd123"
+redux-form-website-template@^0.0.122:
+  version "0.0.122"
+  resolved "https://registry.yarnpkg.com/redux-form-website-template/-/redux-form-website-template-0.0.122.tgz#73cc6a6c1d1efc2e50cf26f149211f5d88b24508"
   dependencies:
     babel-polyfill "^6.26.0"
     classnames "^2.2.3"
@@ -6383,20 +6383,7 @@ redux-form-website-template@^0.0.102:
     redux "^3.4.0"
     redux-form "^7.2.0"
 
-redux-form@^7.2.0:
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/redux-form/-/redux-form-7.2.0.tgz#4465d9bc863e40b1704695d672bea75fcf81db04"
-  dependencies:
-    deep-equal "^1.0.1"
-    es6-error "^4.0.0"
-    hoist-non-react-statics "^2.3.1"
-    invariant "^2.2.2"
-    is-promise "^2.1.0"
-    lodash "^4.17.3"
-    lodash-es "^4.17.3"
-    prop-types "^15.5.9"
-
-redux-form@^7.2.1:
+redux-form@^7.2.0, redux-form@^7.2.1:
   version "7.2.1"
   resolved "https://registry.yarnpkg.com/redux-form/-/redux-form-7.2.1.tgz#011f6ff0cf050552a4a182a271f22217f4584684"
   dependencies:
