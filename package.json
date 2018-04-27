@@ -58,7 +58,7 @@
     "opentip": "^2.4.3",
     "react-redux": "^5.0.6",
     "react-test-renderer": "^16.2.0",
-    "redbox-react": "^1.5.0",
+    "redbox-react": "^1.6.0",
     "redux": "^3.7.2",
     "redux-form-material-ui": "^4.3.3",
     "redux-logger": "^3.0.6",
