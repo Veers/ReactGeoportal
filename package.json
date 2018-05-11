@@ -16,7 +16,7 @@
     "material-ui": "^0.20.0",
     "raw-loader": "^0.5.1",
     "react": "^16.2.0",
-    "react-checkbox-tree": "^1.0.2",
+    "react-checkbox-tree": "^1.2.1",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
     "react-tap-event-plugin": "^3.0.2",
