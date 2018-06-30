@@ -17,7 +17,8 @@ import {
 } from 'redux-form-material-ui'
 import CheckboxTree from 'react-checkbox-tree'
 
-import '../../node_modules/react-checkbox-tree/src/scss/react-checkbox-tree.scss'
+// import '../../node_modules/react-checkbox-tree/src/scss/react-checkbox-tree.scss'
+// import 'react-checkbox-tree/lib/react-checkbox-tree.css'
 
 const nodes = [{
     value: 'mars',

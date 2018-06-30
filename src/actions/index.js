@@ -13,7 +13,7 @@ export const receiveLayers = (json, status) => ({
 
 export const fetchLayers = () => (dispatch) => {
   dispatch(requestLayers)
-  return fetch(`http://gptl.ru/api/map/public/maps.json`)    
+  return fetch(`https://gptl.ru/api/map/public/maps.json`)    
     .then(response => response.json())
     .then(json => dispatch(receiveLayers(json, status)))
 }

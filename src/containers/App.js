@@ -2,14 +2,16 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { selectSubreddit, fetchPostsIfNeeded, invalidateSubreddit, requestLayers, receiveLayers, fetchLayers } from '../actions'
-import { mapLayers } from '../reducers'
+import { mapLayers } from '../reducers/rootReducer'
 import Picker from '../components/Picker'
 import Posts from '../components/Posts'
 import TopToolbar from '../components/TopToolbar'
 import LayerComponent from '../components/LayerComponent'
 import MapComponent from '../components/MapComponent'
 import SearchComponent from '../components/SearchComponent'
+import OlMapComponent from '../components/OlMapComponent'
 
+import '../../node_modules/react-checkbox-tree/src/scss/react-checkbox-tree.scss'
 import '../style/main.scss'
 
 class App extends Component {
@@ -73,7 +75,7 @@ class App extends Component {
         <TopToolbar />
         <LayerComponent coveragesLayers={this.state.coveragesLayers} activeLayer={this.state.activeLayer} onLayerChange={this.onLayerChange} />
         <SearchComponent/>
-        
+        <OlMapComponent/>        
       </div>
     )
   }
