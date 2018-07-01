@@ -22,7 +22,7 @@
     "react-redux": "^5.0.6",
     "react-tap-event-plugin": "^3.0.2",
     "redux": "^3.7.2",
-    "redux-form": "^7.2.1",
+    "redux-form": "^7.4.2",
     "redux-form-material-ui": "^4.3.3",
     "redux-form-website-template": "^0.0.102"
   },
@@ -45,7 +45,7 @@
     "css-loader": "^0.28.9",
     "enzyme": "^3.2.0",
     "enzyme-adapter-react-16": "^1.1.1",
-    "eslint": "^4.16.0",
+    "eslint": "^5.0.1",
     "eslint-config-rackt": "^1.1.1",
     "eslint-loader": "^1.9.0",
     "eslint-plugin-babel": "^4.1.2",
