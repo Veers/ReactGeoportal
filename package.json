@@ -55,7 +55,7 @@
     "gator": "^1.2.4",
     "html-webpack-plugin": "^2.30.1",
     "jest": "^22.1.4",
-    "node-sass": "^4.7.2",
+    "node-sass": "^4.9.0",
     "opentip": "^2.4.3",
     "react-redux": "^5.0.6",
     "react-test-renderer": "^16.2.0",
