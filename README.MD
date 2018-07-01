@@ -5,3 +5,7 @@
 to start dev:
 - yarn 
 - yarn start
+
+recourses:
+
+https://github.com/webpack-contrib/mini-css-extract-plugin

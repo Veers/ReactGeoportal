@@ -1,14 +1,24 @@
 const path = require('path')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopywebpackPlugin = require('copy-webpack-plugin')
 const cesiumSource = 'node_modules/cesium/Source'
 const cesiumWorkers = '../Build/Cesium/Workers'
 
-const extractSass = new ExtractTextPlugin({
-    filename: "[name].[contenthash].css",
-    disable: process.env.NODE_ENV === "development"
+const devMode = process.env.NODE_ENV !== 'production'
+
+// const extractSass = new ExtractTextPlugin({
+//     filename: "[name].[contenthash].css",
+//     disable: process.env.NODE_ENV === "development"
+// });
+
+const extractSass = new MiniCssExtractPlugin({
+    // Options similar to the same options in webpackOptions.output
+    // both options are optional
+    filename: devMode ? '[name].css' : '[name].[hash].css',
+    chunkFilename: devMode ? '[id].css' : '[id].[hash].css',
 });
 
 module.exports = {
@@ -31,7 +41,15 @@ module.exports = {
         }
     },
     module: {
-        loaders: [{
+        rules: [{
+            test: /\.(sa|sc|c)ss$/,
+            use: [
+                devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+                'css-loader',
+                'postcss-loader',
+                'sass-loader',
+            ]
+        },{
             test: /\.js$/,
             loader: 'babel-loader',
             exclude: /node_modules/
@@ -39,18 +57,6 @@ module.exports = {
             test: /\.jsx$/,
             loader: 'babel-loader',
             exclude: /node_modules/
-        }, {
-            test: /\.scss$/,
-            use: [{
-                loader: "style-loader" // creates style nodes from JS strings
-            }, {
-                loader: "css-loader" // translates CSS into CommonJS
-            }, {
-                loader: "sass-loader" // compiles Sass to CSS
-            }]
-        }, {
-            test: /\.css$/,
-            loader: [ 'style-loader', 'css-loader' ]
         },{
             test: /\.(png|gif|jpg|jpeg|svg|xml|json)$/,
             use: [ 'url-loader' ]
