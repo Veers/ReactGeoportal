@@ -74,8 +74,7 @@ class App extends Component {
       <div>
         <TopToolbar />
         <LayerComponent coveragesLayers={this.state.coveragesLayers} activeLayer={this.state.activeLayer} onLayerChange={this.onLayerChange} />
-        <SearchComponent/>
-        <OlMapComponent/>        
+        <SearchComponent/>     
       </div>
     )
   }

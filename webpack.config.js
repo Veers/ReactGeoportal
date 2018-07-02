@@ -63,8 +63,10 @@ module.exports = {
         }]
     },
     devServer: {
-        contentBase: path.resolve(__dirname, "dist")
+        contentBase: path.resolve(__dirname, "dist"),
+        compress: false
     },
+    devtool: 'inline-source-map',
     plugins: [
         extractSass,
          new HtmlWebpackPlugin({

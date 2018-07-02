@@ -7,6 +7,8 @@ import thunk from 'redux-thunk'
 import { createLogger } from 'redux-logger'
 import reducer  from './reducers/rootReducer'
 
+import fetchLayers from './actions/index'
+
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
@@ -15,14 +17,16 @@ import App from './containers/App'
 injectTapEventPlugin()
 
 const middleware = [ thunk ]
-if (process.env.NODE_ENV !== 'production') {
-  middleware.push(createLogger())
-}
+// if (process.env.NODE_ENV !== 'production') {
+//   middleware.push(createLogger())
+// }
 
 const store = createStore(
   reducer,
   applyMiddleware(...middleware)
 )
+
+store.dispatch(fetchLayers)
 
 render(
   <Provider store={store}>
