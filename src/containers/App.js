@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { itemsFetchData } from '../actions/mapActions'
+import { layersFetchData } from '../actions/mapActions'
 import { mapLayers } from '../reducers/rootReducer'
 import Picker from '../components/Picker'
 import Posts from '../components/Posts'
@@ -80,7 +80,7 @@ class App extends Component {
 
     return (
         <ul>
-            {this.props.items.map((item) => (
+            {this.props.layers.map((item) => (
                 <li key={item.id}>
                     {item.label}
                 </li>
@@ -96,15 +96,15 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-      items: state.items,
-      hasErrored: state.itemsHasErrored,
-      isLoading: state.itemsIsLoading
+      layers: state.layers,
+      hasErrored: state.layersHasErrored,
+      isLoading: state.layersIsLoading
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-      fetchData: (url) => dispatch(itemsFetchData(url))
+      fetchData: (url) => dispatch(layersFetchData(url))
   };
 };
 

@@ -1,6 +1,8 @@
-export function itemsHasErrored(state = false, action) {
+import { LAYERS_HAS_ERRORED, LAYERS_IS_LOADING, LAYERS_FETCH_DATA_SUCCESS } from '../actions/mapActions'
+
+export function layersHasErrored(state = false, action) {
     switch (action.type) {
-        case 'ITEMS_HAS_ERRORED':
+        case LAYERS_HAS_ERRORED:
             return action.hasErrored;
 
         default:
@@ -8,9 +10,9 @@ export function itemsHasErrored(state = false, action) {
     }
 }
 
-export function itemsIsLoading(state = false, action) {
+export function layersIsLoading(state = false, action) {
     switch (action.type) {
-        case 'ITEMS_IS_LOADING':
+        case LAYERS_IS_LOADING:
             return action.isLoading;
 
         default:
@@ -18,9 +20,9 @@ export function itemsIsLoading(state = false, action) {
     }
 }
 
-export function items(state = [], action) {
+export function layers(state = [], action) {
     switch (action.type) {
-        case 'ITEMS_FETCH_DATA_SUCCESS':
+        case LAYERS_FETCH_DATA_SUCCESS:
             return action.items;
 
         default:
