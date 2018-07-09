@@ -1,36 +1,42 @@
-import fetch from 'cross-fetch'
+import fetch from 'isomorphic-fetch'
 
-export const LAYERS_HAS_ERRORED = 'ITEMS_HAS_ERRORED'
-export const LAYERS_IS_LOADING = 'LAYERS_IS_LOADING'
-export const LAYERS_FETCH_DATA_SUCCESS = 'LAYERS_FETCH_DATA_SUCCESS'
+export const REQUEST_LAYERS = 'REQUEST_LAYERS'
+export const RECEIVE_LAYERS = 'RECEIVE_LAYERS'
+export const INVALIDATE_LAYERS = 'INVALIDATE_LAYERS'
 
-export function layersHasErrored(bool) {
-  return {type: LAYERS_HAS_ERRORED, hasErrored: bool};
+export function invalidateLayers(layers) {
+  return {
+    type: INVALIDATE_LAYERS,
+    layers
+  }
 }
 
-export function layersIsLoading(bool) {
-  return {type: LAYERS_IS_LOADING, isLoading: bool};
+function requestLayers(layers) {
+  return {
+    type: REQUEST_LAYERS,
+    layers
+  }
 }
 
-export function layersFetchDataSuccess(items) {
-  return {type: LAYERS_FETCH_DATA_SUCCESS, items};
+function receiveLayers(json) {
+  console.log(json.data[0].templates[0].layers)
+  return {
+    type: RECEIVE_LAYERS,
+    layers: json.data[0].templates[0].layers
+  }
 }
 
-export function layersFetchData(url) {
+function fetchLayers() {
+  return dispatch => {
+    dispatch(requestLayers())
+    return fetch(`https://gptl.ru/api/map/public/maps.ext-json`)
+      .then(response => response.json())
+      .then(json => dispatch(receiveLayers(json)))
+  }
+}
+
+export function fetchMapLayers() {
   return (dispatch) => {
-    dispatch(layersIsLoading(true));
-
-    fetch(url).then((response) => {
-      if (!response.ok) {
-        throw Error(response.statusText);
-      }
-
-      dispatch(layersIsLoading(false));
-
-      return response;
-    })
-    .then((response) => response.json())
-    .then((items) => dispatch(layersFetchDataSuccess(items)))
-    .catch(() => dispatch(layersHasErrored(true)));
-  };
+      return dispatch(fetchLayers())
+  }
 }

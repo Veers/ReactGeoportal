@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { layersFetchData } from '../actions/mapActions'
-import { mapLayers } from '../reducers/rootReducer'
+import { fetchMapLayers } from '../actions/mapActions'
 import Picker from '../components/Picker'
 import Posts from '../components/Posts'
 import TopToolbar from '../components/TopToolbar'
@@ -15,44 +14,49 @@ import '../../node_modules/react-checkbox-tree/src/scss/react-checkbox-tree.scss
 import '../style/main.scss'
 
 class App extends Component {
-  // static propTypes = {
-  //   dispatch: PropTypes.func.isRequired,
-  //   layers: PropTypes.object.isRequired
-  // }
-
-  constructor(props) {
-    super(props)
-
-    // this.state = {
-    //   location: 'external',
-    //   coveragesLayers: [],
-    //   activeLayer: {}
-    // }
-
-    // this.onLayerChange = this.onLayerChange.bind(this)
-  }
 
   componentDidMount() {
-    this.props.fetchData('http://5826ed963900d612000138bd.mockapi.io/items');
+    const { dispatch } = this.props
+    dispatch(fetchMapLayers())
   }
 
-  componentDidUpdate(prevProps) {
-    // const { dispatch, layers } = this.props
+  render() {
+    return (
+      <div>
+        hello
+      </div>
+    )
   }
+}
 
-  componentWillReceiveProps(nextProps) {
-    // const { dispatch, layers } = this.props
-    // if (nextProps.selectedSubreddit !== this.props.selectedSubreddit) {
-    //   const { dispatch, selectedSubreddit } = nextProps
-    //   dispatch(fetchPostsIfNeeded(selectedSubreddit))
-    // }
+App.propTypes = {
+  layers: PropTypes.array.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  lastUpdated: PropTypes.number,
+  dispatch: PropTypes.func.isRequired
+}
+
+function mapStateToProps(state) {
+  const { fetchLayersReducer } = state
+  const {
+    isFetching,
+    items: layers
+  } = fetchLayersReducer[fetchMapLayers] || {
+    isFetching: true,
+    items: []
   }
+  return {
+    layers,
+    isFetching
+  }
+}
 
-  // onLayerChange(layer) {
-  //   console.debug(layer)
-  //   this.setState({ activeLayer: layer })
-  // }
-  
+export default connect(mapStateToProps)(App)
+
+
+
+
+
   // from render
   // <TopToolbar />
   //       <LayerComponent coveragesLayers={this.state.coveragesLayers} activeLayer={this.state.activeLayer} onLayerChange={this.onLayerChange} />
@@ -64,48 +68,28 @@ class App extends Component {
 
   //   return (
   //     <div>
-             
+
   //     </div>
   //   )
   // }
 
-  render() {
-    if (this.props.hasErrored) {
-        return <p>Sorry! There was an error loading the items</p>;
-    }
-
-    if (this.props.isLoading) {
-        return <p>Loading…</p>;
-    }
-
-    return (
-        <ul>
-            {this.props.layers.map((item) => (
-                <li key={item.id}>
-                    {item.label}
-                </li>
-            ))}
-        </ul>
-    );
-  }
-}
 
 // App.defaultProps = {
 //   layers: Object.create(null)
 // }
 
-const mapStateToProps = (state) => {
-  return {
-      layers: state.layers,
-      hasErrored: state.layersHasErrored,
-      isLoading: state.layersIsLoading
-  };
-};
+// const mapStateToProps = (state) => {
+//   return {
+//       layers: state.layers,
+//       hasErrored: state.layersHasErrored,
+//       isLoading: state.layersIsLoading
+//   };
+// };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-      fetchData: (url) => dispatch(layersFetchData(url))
-  };
-};
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//       fetchData: (url) => dispatch(layersFetchData(url))
+//   };
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App); 
+// export default connect(mapStateToProps, mapDispatchToProps)(App); 

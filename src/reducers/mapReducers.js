@@ -1,31 +1,39 @@
-import { LAYERS_HAS_ERRORED, LAYERS_IS_LOADING, LAYERS_FETCH_DATA_SUCCESS } from '../actions/mapActions'
-
-export function layersHasErrored(state = false, action) {
+import {
+    REQUEST_LAYERS, RECEIVE_LAYERS, INVALIDATE_LAYERS
+  } from '../actions/mapActions'
+  
+  
+  function mapLayers(state = {
+    isFetching: false,
+    didInvalidate: false,
+    items: []
+  }, action) {
     switch (action.type) {
-        case LAYERS_HAS_ERRORED:
-            return action.hasErrored;
-
-        default:
-            return state;
+      case REQUEST_LAYERS:
+        return Object.assign({}, state, {
+          isFetching: true,
+          didInvalidate: false
+        })
+      case RECEIVE_LAYERS:
+        return Object.assign({}, state, {
+          isFetching: false,
+          didInvalidate: false,
+          items: action.layers
+        })
+      default:
+        return state
     }
-}
-
-export function layersIsLoading(state = false, action) {
+  }
+  
+  export function fetchLayersReducer(state = { }, action) {
     switch (action.type) {
-        case LAYERS_IS_LOADING:
-            return action.isLoading;
-
-        default:
-            return state;
+      case INVALIDATE_LAYERS:
+      case RECEIVE_LAYERS:
+      case REQUEST_LAYERS:
+        return Object.assign({}, state, {
+          [action.layers]: mapLayers(state[action.layers], action)
+        })
+      default:
+        return state
     }
-}
-
-export function layers(state = [], action) {
-    switch (action.type) {
-        case LAYERS_FETCH_DATA_SUCCESS:
-            return action.items;
-
-        default:
-            return state;
-    }
-}
+  }
