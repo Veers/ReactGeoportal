@@ -23,7 +23,8 @@ class App extends Component {
   render() {
     return (
       <div>
-        hello
+        <TopToolbar/>        
+        <OlMapComponent />
       </div>
     )
   }
