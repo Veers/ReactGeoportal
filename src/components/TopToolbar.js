@@ -6,6 +6,7 @@ import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import FlatButton from 'material-ui/FlatButton'
 import Toggle from 'material-ui/Toggle'
+import Toolbar from '@material-ui/core/Toolbar';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import NavigationClose from 'material-ui/svg-icons/navigation/close'
 
@@ -24,12 +25,32 @@ class TopToolbar extends Component {
   }
 
   render() {
+    const styles = {
+  root: {
+    flexGrow: 1,
+  },
+  flex: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginLeft: -12,
+    marginRight: 20,
+  },
+};
     return (
       <div>
         <MuiThemeProvider>
-          <AppBar title="Application header title" iconElementRight={
-            <FlatButton {...this.props} label="Login" onClick={this.handleEvent}/>
-          }/>
+          <AppBar position="static">
+            <Toolbar>
+              <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+                <MenuIcon />
+              </IconButton>
+              <Typography variant="title" color="inherit" className={classes.flex}>
+                News
+              </Typography>
+              <Button color="inherit">Login</Button>
+            </Toolbar>
+          </AppBar>
         </MuiThemeProvider>
       </div>
     );
