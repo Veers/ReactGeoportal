@@ -8,10 +8,9 @@ import TopToolbar from '../components/TopToolbar'
 import LayerComponent from '../components/LayerComponent'
 import MapComponent from '../components/MapComponent'
 import SearchComponent from '../components/SearchComponent'
-import OlMapComponent from '../components/OlMapComponent'
 
-import '../../node_modules/react-checkbox-tree/src/scss/react-checkbox-tree.scss'
-import '../style/main.scss'
+// import '../../node_modules/react-checkbox-tree/src/scss/react-checkbox-tree.scss'
+// import '../style/main.scss'
 
 class App extends Component {
 
@@ -24,7 +23,7 @@ class App extends Component {
     return (
       <div>
         <TopToolbar/>        
-        <OlMapComponent />
+        <MapComponent/>
       </div>
     )
   }

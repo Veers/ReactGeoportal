@@ -6,6 +6,8 @@
   "author": "Veers",
   "license": "GNUv3",
   "dependencies": {
+    "@material-ui/core": "^1.4.3",
+    "@material-ui/icons": "^2.0.1",
     "cesium": "^1.46.1",
     "cross-fetch": "^2.2.2",
     "eslint-config-react-app": "^2.1.0",
@@ -18,6 +20,7 @@
     "markdown-loader": "^2.0.1",
     "material-ui": "^0.20.0",
     "ol": "^5.0.0",
+    "ol-cesium": "^2.2.0",
     "postcss-loader": "^2.1.5",
     "raw-loader": "^0.5.1",
     "react": "^16.2.0",
