@@ -14,16 +14,42 @@ import SearchComponent from '../components/SearchComponent'
 
 class App extends Component {
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      projection: "EPSG:3857",
+      layerName: ''      
+    };
+    this.toggleProjection = this.toggleProjection.bind(this)
+    this.toggleLayer = this.toggleLayer.bind(this)
+  }
+
   componentDidMount() {
     const { dispatch } = this.props
     dispatch(fetchMapLayers())
   }
 
+  toggleProjection = () => {
+    (this.state.projection == "EPSG:4326") ? this.setState({projection: "EPSG:3857"}) : this.setState({projection: "EPSG:4326"})
+  }
+
+  toggleLayer = (layer, e) => {
+    this.setState({layerName: layer})
+  }
+  
+
+
+
   render() {
     return (
       <div>
-        <TopToolbar/>        
-        <MapComponent/>
+        <MapComponent projection={this.state.projection} activeLayer={this.state.layerName}/>
+        <button onClick={this.toggleProjection}>Сменить проеккцию</button>
+        <label>{this.state.projection}</label>
+        &nbsp;&nbsp;&nbsp;
+        <button onClick={(e) => this.toggleLayer('xyz', e)}>XYZ</button>
+        <button onClick={(e) => this.toggleLayer('wms', e)}>WMS</button>
+        <button onClick={(e) => this.toggleLayer('wmts', e)}>WMTS</button>
       </div>
     )
   }

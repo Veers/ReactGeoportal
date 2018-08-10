@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Switch from '@material-ui/core/Switch';
+import LeftMenu from './LeftMenu';
 
 const styles = theme => ({
   root: {
@@ -56,19 +57,18 @@ class TopToolbar extends Component {
 
     return (
       <div>
-        <MuiThemeProvider>
-          <AppBar position="static">
-            <Toolbar>
-              <IconButton color="inherit" aria-label="Menu" onClick={this.clickMenu}>
-                <MenuIcon />
-              </IconButton>
-              <Typography variant="title" color="inherit">
-                News
-              </Typography>
-              <Switch id="mapSwitcher" defaultChecked value="checkedF" color="default" /> c123
-            </Toolbar>
-          </AppBar>
-        </MuiThemeProvider>
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton color="inherit" aria-label="Menu" onClick={this.clickMenu}>
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="title" color="inherit">
+              News
+            </Typography>
+            <Switch id="mapSwitcher" defaultChecked value="checkedF" color="default" /> c123
+          </Toolbar>
+        </AppBar>
+        <LeftMenu status={this.state.isMenuOpen}/>
       </div>
     );
   }

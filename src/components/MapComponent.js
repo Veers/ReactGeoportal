@@ -3,133 +3,138 @@ import PropTypes from 'prop-types'
 
 import MapUtils from './MapUtils'
 
-import Cesium from 'cesium/Cesium'
 import ol from 'ol-cesium/dist/ol.js'
-import OLCesium from 'ol-cesium/dist/olcesium.js'
 
 import 'ol/ol.css';
-import {Map, View} from 'ol';
+import Map from 'ol/Map';
+import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
+import TileWMS from 'ol/source/TileWMS';
 import OSM from 'ol/source/OSM';
+import XYZ from 'ol/source/XYZ';
+import WMTS from 'ol/source/WMTS';
+import WMTSTileGrid from 'ol/tilegrid/WMTS';
+import {get as getProjection} from 'ol/proj';
+import {getWidth, getTopLeft} from 'ol/extent';
 
 import '../style/map.scss'
 import '../../node_modules/cesium/Build/Cesium/Widgets/widgets.css'
 
 class MapComponent extends Component {
-    // static propTypes = {
-    //     coveragesLayers: PropTypes.array.isRequired,
-    //     onLayerChange: PropTypes.func.isRequired,
-    //     activeLayer: PropTypes.object.isRequired
-    // }
+    static propTypes = {
+        projection: PropTypes.string.isRequired,
+        activeLayer: PropTypes.string.isRequired
+    }
+
+    createOSMLayer = () => {
+        return new TileLayer({
+            source: new OSM()
+        })
+    }
+
+    createXYZLayer = (layerData) => {
+        let source = new XYZ({
+            url: 'https://server.arcgisonline.com/ArcGIS/rest/services/' +
+                  'World_Topo_Map/MapServer/tile/{z}/{y}/{x}'
+        })
+        return new TileLayer({
+            source: source
+        })
+    }
+
+    createWMSLayer = (layerData) => {
+        var wmsSource = new TileWMS({
+            url: 'https://ahocevar.com/geoserver/wms',
+            params: {'LAYERS': 'ne:ne', 'TILED': true},
+            serverType: 'geoserver',
+            crossOrigin: 'anonymous'
+        });
+
+        return new TileLayer({
+            source: wmsSource
+        });
+    }
+
+    createWMTSLayer = (layerData) => {
+        var projection = getProjection('EPSG:3857');
+        var projectionExtent = projection.getExtent();
+        var size = getWidth(projectionExtent) / 256;
+        var resolutions = new Array(14);
+        var matrixIds = new Array(14);
+        for (var z = 0; z < 14; ++z) {
+            resolutions[z] = size / Math.pow(2, z);
+            matrixIds[z] = z;
+        }
+
+
+        return new TileLayer({
+            opacity: 0.7,
+            source: new WMTS({
+                attributions: 'Tiles © <a href="https://services.arcgisonline.com/arcgis/rest/' +
+                  'services/Demographics/USA_Population_Density/MapServer/">ArcGIS</a>',
+                url: 'https://services.arcgisonline.com/arcgis/rest/' +
+                  'services/Demographics/USA_Population_Density/MapServer/WMTS/',
+                layer: '0',
+                matrixSet: 'EPSG:3857',
+                format: 'image/png',
+                projection: projection,
+                tileGrid: new WMTSTileGrid({
+                    origin: getTopLeft(projectionExtent),
+                    resolutions: resolutions,
+                    matrixIds: matrixIds
+                }),
+                style: 'default',
+                wrapX: true
+            })
+        })
+    }
 
     constructor(props) {
         super(props)
+    }
 
+    componentDidMount = () => {        
+        let proj = this.props.projection;
+        let xyzLayer = this.createXYZLayer();
+        let wmsLayer = this.createWMSLayer();
+        let wmtsLayer = this.createWMTSLayer();
         const map = new Map({
             target: 'cesiumContainer',
             layers: [
-              new TileLayer({
-                source: new OSM()
-              })
+                // new TileLayer({
+                //     source: new OSM()
+                // }),
+                // xyzLayer,
+                wmsLayer,
+                wmtsLayer
             ],
             view: new View({
               center: [0, 0],
-              zoom: 4
+              zoom: 4,
+              projection: proj
             })
         });
 
-        
-        // const ol3d = new OLCesium({map: map}); // map is the ol.Map instance
-        // ol3d.setEnabled(true);
-
-        // let widget = new Cesium.CesiumWidget('cesiumContainer', {
-        //     terrainProvider: new Cesium.CesiumTerrainProvider({
-        //         url: 'https://assets.agi.com/stk-terrain/v1/tilesets/world/tiles'
-        //     }),
-        //     // Show Columbus View map with Web Mercator projection
-        //     mapProjection: new Cesium.WebMercatorProjection()
-        // })
-
-        // this.state = {
-        //     coveragesLayers: [],
-        //     activeLayer: {},
-        //     cesiumWidget: widget,
-        //     loadBasicLayers: false
-        // }
+        this.setState({map: map});
     }
 
-    componentWillReceiveProps = (nextProps) => {
-        // this.setState({
-        //     coveragesLayers: nextProps.coveragesLayers,
-        //     activeLayer: nextProps.activeLayer
-        // })
-        // let mapLayers = []
-        // // nextProps.coveragesLayers.forEach(function(layer) {
-        // //     if (layer.type != 'Group') {
-        // //         let mapLayer = Object.assign({}, {
-        // //             uid: layer.idLayer,
-        // //             name: layer.name,
-        // //             url: layer.config ? layer.config.options.url : ""
-        // //         })
-        // //         mapLayers.push(mapLayer)
-        // //     }
-        // // })
-        // this.setState({
-        //     viewLayers: mapLayers
-        // })
-        // if (!this.state.loadBasicLayers) {
-
-        //     const basicImageries = {
-        //         'Мозаика (Landsat)': {
-        //             uid: 'images_landsat',
-        //             url: 'http://tiles.maps.sputnik.ru/',
-        //             northPoleUrl: 'static/geoportal/release/img/sputnik-north-pole.png',
-        //             southPoleUrl: 'static/geoportal/release/img/sputnik-south-pole.png'
-        //         },
-        //         'Карта (РИАС РКД)': {
-        //             uid: 'worldmap',
-        //             url: 'http://basemap.rekod.ru/worldmap/',
-        //             northPoleUrl: 'static/geoportal/release/img/map-north-pole.png',
-        //             southPoleUrl: 'static/geoportal/release/img/map-south-pole.png'
-        //         },
-        //         'Карта (OSM)': {
-        //             uid: 'osm',
-        //             url: 'http://a.tile.openstreetmap.org/',
-        //             northPoleUrl: 'static/geoportal/release/img/osm-north-pole.png',
-        //             southPoleUrl: 'static/geoportal/release/img/osm-south-pole.png'
-        //         },
-        //         'Карта Спутник': {
-        //             uid: 'sputnik',
-        //             url: 'http://tiles.maps.sputnik.ru/',
-        //             northPoleUrl: 'static/geoportal/release/img/sputnik-north-pole.png',
-        //             southPoleUrl: 'static/geoportal/release/img/sputnik-south-pole.png'
-        //         }
-        //     }
-        //     const basicImageryIds = Object.keys(basicImageries)
-
-        //     let layers = this.state.cesiumWidget.scene.imageryLayers
-
-        //     if (nextProps.coveragesLayers) {
-        //         console.warn(232)
-        //         nextProps.coveragesLayers.forEach(layer => {
-        //             let layerName = layer.name
-        //             if (basicImageryIds.includes(layerName)) {
-        //                 console.log(basicImageries[layerName].url)
-        //                 let imageryProvider = new Cesium.createOpenStreetMapImageryProvider({
-        //                     url: basicImageries[layerName].url,
-        //                     name: layerName,
-        //                     visibility: layerName === nextProps.activeLayer.name
-        //                 })
-        //                 layers.addImageryProvider(imageryProvider)
-        //             }
-        //         })
-
-        //         this.setState({ loadBasicLayers: true })
-        //     }
-        // }
+    componentDidUpdate = (prevProps, prevState, snapshot) => {
+        if (this.props.activeLayer !== prevProps.activeLayer) {
+            this.setState({test: this.props.activeLayer})
+            let map = this.state.map;
+            switch(this.props.activeLayer) {
+                case 'xyz':
+                    console.log('xyz')
+                    break;
+                case 'wms':
+                    console.log('wms')
+                    break;
+                case 'wmts':
+                    console.log('wmts')
+                    break;
+            }
+        }
     }
-
-    componentDidMount() {}
 
     render() {
         return false

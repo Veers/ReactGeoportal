@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
-import { mailFolderListItems, otherMailFolderListItems } from './tileData';
 
 const styles = {
   list: {
@@ -17,88 +17,37 @@ const styles = {
 };
 
 class LeftMenu extends React.Component {
-  state = {
-    top: false,
-    left: false,
-    bottom: false,
-    right: false,
-  };
+  constructor(props) {
+    super(props)
+    this.state = {
+      isOpen: false
+    };
+    this.toggleDrawer = this.toggleDrawer.bind(this)
+  }
 
-  toggleDrawer = (side, open) => () => {
+  toggleDrawer = (open) => () => {
     this.setState({
-      [side]: open,
+      isOpen: open,
     });
   };
 
   render() {
-    const { classes } = this.props;
-
-    const sideList = (
-      <div className={classes.list}>
-        <List>{mailFolderListItems}</List>
-        <Divider />
-        <List>{otherMailFolderListItems}</List>
-      </div>
-    );
-
-    const fullList = (
-      <div className={classes.fullList}>
-        <List>{mailFolderListItems}</List>
-        <Divider />
-        <List>{otherMailFolderListItems}</List>
-      </div>
-    );
+    const { classes } = this.props.classes;
+    const { status } = this.props.status;
 
     return (
       <div>
-        <Button onClick={this.toggleDrawer('left', true)}>Open Left</Button>
-        <Button onClick={this.toggleDrawer('right', true)}>Open Right</Button>
-        <Button onClick={this.toggleDrawer('top', true)}>Open Top</Button>
-        <Button onClick={this.toggleDrawer('bottom', true)}>Open Bottom</Button>
-        <Drawer open={this.state.left} onClose={this.toggleDrawer('left', false)}>
+       <MuiThemeProvider>
+        <Drawer open={this.props.status} onClose={this.toggleDrawer(false)}>
           <div
             tabIndex={0}
             role="button"
-            onClick={this.toggleDrawer('left', false)}
-            onKeyDown={this.toggleDrawer('left', false)}
+            onClick={this.toggleDrawer(false)}
+            onKeyDown={this.toggleDrawer(false)}
           >
-            {sideList}
           </div>
         </Drawer>
-        <Drawer anchor="top" open={this.state.top} onClose={this.toggleDrawer('top', false)}>
-          <div
-            tabIndex={0}
-            role="button"
-            onClick={this.toggleDrawer('top', false)}
-            onKeyDown={this.toggleDrawer('top', false)}
-          >
-            {fullList}
-          </div>
-        </Drawer>
-        <Drawer
-          anchor="bottom"
-          open={this.state.bottom}
-          onClose={this.toggleDrawer('bottom', false)}
-        >
-          <div
-            tabIndex={0}
-            role="button"
-            onClick={this.toggleDrawer('bottom', false)}
-            onKeyDown={this.toggleDrawer('bottom', false)}
-          >
-            {fullList}
-          </div>
-        </Drawer>
-        <Drawer anchor="right" open={this.state.right} onClose={this.toggleDrawer('right', false)}>
-          <div
-            tabIndex={0}
-            role="button"
-            onClick={this.toggleDrawer('right', false)}
-            onKeyDown={this.toggleDrawer('right', false)}
-          >
-            {sideList}
-          </div>
-        </Drawer>
+       </MuiThemeProvider>
       </div>
     );
   }
@@ -106,6 +55,7 @@ class LeftMenu extends React.Component {
 
 LeftMenu.propTypes = {
   classes: PropTypes.object.isRequired,
+  status: PropTypes.bool.isRequired
 };
 
 export default withStyles(styles)(LeftMenu);
