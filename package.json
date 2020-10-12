@@ -22,7 +22,7 @@
     "ol": "^5.0.0",
     "ol-cesium": "^2.2.0",
     "postcss-loader": "^2.1.5",
-    "raw-loader": "^0.5.1",
+    "raw-loader": "^4.0.2",
     "react": "^16.4.2",
     "react-checkbox-tree": "^1.0.2",
     "react-dom": "^16.2.0",
